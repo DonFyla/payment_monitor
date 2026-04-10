@@ -2,19 +2,25 @@ FROM python:3.11-slim-bookworm
 
 WORKDIR /app
 
-# Install PostgreSQL dependencies
+# Install PostgreSQL dependencies and curl for health checks
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install gunicorn for production
+RUN pip install gunicorn
+
 # Copy project
 COPY . .
 
-EXPOSE 8000
+# Make entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the entrypoint script
+CMD ["/app/entrypoint.sh"]
