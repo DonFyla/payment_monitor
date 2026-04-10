@@ -2,20 +2,22 @@
 # This file defines the infrastructure as code for Render deployment
 # To deploy: Go to https://dashboard.render.com/blueprints and connect your repo
 
-services:
+databases:
   # PostgreSQL Database
-  - type: postgres
-    name: payment-monitor-db
-    ipAllowList: []  # Required but empty - allows all connections
+  - name: payment-monitor-db
+    databaseName: payment_monitor
+    user: payment_monitor
     plan: free
-    region: oregon  # Change to your preferred region
+    region: oregon
+    ipAllowList: []  # Required but empty - allows all connections
 
+services:
   # Web Service (Django Application)
   - type: web
     name: payment-monitor
     runtime: docker
     plan: free
-    region: oregon  # Change to your preferred region
+    region: oregon
     dockerfilePath: ./Dockerfile
     dockerContext: .
     envVars:
