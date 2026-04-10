@@ -40,6 +40,16 @@ services:
       # Python version
       - key: PYTHON_VERSION
         value: "3.11.0"
+      
+      # Superuser credentials - CHANGE THESE!
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: "admin"
+      
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: "admin@example.com"
+      
+      - key: DJANGO_SUPERUSER_PASSWORD
+        generateValue: true  # Auto-generates a random password
     
     # Health check path
     healthCheckPath: /admin/login/
